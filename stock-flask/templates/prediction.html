@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Results</title>
+    <!-- Include Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Dark mode CSS */
+        .dark-mode {
+            background-color: #1f2937;
+            color: white;
+        }
+
+        /* Styles for elements in dark mode */
+        .dark-mode .bg-white {
+            background-color: #374151;
+            color: white;
+        }
+
+        .dark-mode .text-blue-500 {
+            color: #60a5fa; /* Change the color to a different shade of blue in dark mode */
+        }
+        
+        /* Center the title and button */
+        .center-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        /* Styles for the button */
+        .back-home-button {
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .back-home-button:hover {
+            background-color: #60a5fa;
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-gray-200">
+    <div class="center-content">
+        <h1 class="text-3xl font-semibold mb-4">Prediction Results</h1>
+        <!-- Display the predicted closing price and charts -->
+        <div class="max-w-lg mx-auto bg-white rounded-md shadow-md p-4 mb-6">
+            <p class="text-lg font-semibold mb-2">Predicted Closing Price:</p>
+            <p class="text-2xl font-semibold mb-4">{{ prediction_text }}</p>
+            <!-- Render charts or other result data here -->
+        </div>
+        <a href="/" id="darkModeToggle" class="text-blue-500 hover:underline back-home-button flex items-center justify-center space-x-2">
+            <i id="arrowIcon" class="fas"></i>
+            Back to Home
+        </a>
+    </div>
+
+    <script>
+        const body = document.body;
+        const resultsPage = document.querySelector('.center-content');
+
+        // Check if dark mode is enabled and apply corresponding class
+        const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (isDarkMode) {
+            body.classList.add('dark-mode');
+            resultsPage.classList.add('dark-mode');
+        }
+
+        // Function to toggle dark mode
+        const toggleDarkMode = () => {
+            body.classList.toggle('dark-mode');
+            resultsPage.classList.toggle('dark-mode');
+        };
+
+        // Event listener for clicking the dark mode switch
+        const darkModeSwitch = document.getElementById('darkModeToggle');
+        if (darkModeSwitch) {
+            darkModeSwitch.addEventListener('click', toggleDarkMode);
+        }
+
+        // Get the prediction text
+        const predictionText = "{{ prediction_text }}";
+        const arrowIcon = document.getElementById('arrowIcon');
+
+        // Show an arrow icon based on the prediction trend
+        if (predictionText.includes("higher")) {
+            arrowIcon.classList.add('fa-arrow-up', 'text-green-500');
+        } else if (predictionText.includes("lower")) {
+            arrowIcon.classList.add('fa-arrow-down', 'text-red-500');
+        }
+    </script>
+</body>
+</html>
